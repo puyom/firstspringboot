@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.js"></script>
+    <title>Document</title>
+    <style>
+        .fileupload-box
+        {
+            padding: 5px;
+            border: 2px dashed gainsboro;
+            height: 180px;
+            width: 400px;
+            position: relative
+        }
+        .fileupload-box p
+        {
+            margin: 5px 0 0 5px;
+
+        }
+        .img-box{
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            left: 0;
+            right: 0;
+            top: 10px;
+            bottom: 0;
+            margin:auto;
+        }
+        .img-box img{
+            width: 120px;
+            height: 120px;
+        }
+
+    </style>
+</head>
+<body>
+<form id="pic04" encType="multipart/form-data" method="post">
+    <div class="addbox">
+        <img class="updateimg4 img-responsive" src="../img/picTip.png"
+             style="width:121px;height: 75px;"/>
+    </div>
+    <input type="file" id="picFile4" name="file" style="display: none" />
+</form>
+
+<script>
+    $("#picFile4").on("change",function(){
+        var imgFile = this.files[0];
+        var size = imgFile.size/1024;
+        if(size > 30){
+            layer.alert("图片超过30K");
+            return false;
+        }
+        var fr = new FileReader();
+        fr.onload = function(e) {
+            var data = e.target.result;
+            //加载图片获取图片真实宽度和高度
+            var image = new Image();
+            image.οnlοad=function(){
+                var width = image.width;
+                var height = image.height;
+                if( width != 121 || height != 75){
+                    layer.alert("图片尺寸不对，格式为(121 x 75)");
+                    return false;
+                }else{
+                    var imgs = document.getElementsByClassName('updateimg4');
+                    imgs[imgs.length-1].src = fr.result;
+                    fengWu.uploadPic("pic04");
+                }
+            };
+            image.src= data
+        };
+        fr.readAsDataURL(imgFile);
+    })
+</script>
+</body>
+</html>
